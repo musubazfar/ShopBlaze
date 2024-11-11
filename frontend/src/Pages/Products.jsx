@@ -64,7 +64,7 @@ const Products = () => {
             <Button className='btn btn-dark w-100' type='button' disabled={product.countInStock < 1}>Add to Cart</Button>
         </StyledStock>
         <StyledStock className='p-0 d-flex align-items-center' style={{ flexGrow: 1 }}>
-            <p>{product.description}</p>
+        <p className='p-1' style={{ textAlign: 'justify' }}>{product.description}</p>
         </StyledStock>
     </ListGroup>
 </Col>
