@@ -1,20 +1,27 @@
-import React from 'react'
-import Header from './components/Header'
-import { Container } from 'react-bootstrap'
-import Footer from './components/Footer'
+import React from 'react';
+import Header from './components/Header';
+import { Container } from 'react-bootstrap';
+import { ThemeProvider } from 'styled-components';
+import blazeTheme from './components/Theme';
+import GlobalStyles from './components/GlobalStyles'
+import Footer from './components/Footer';
+import { Outlet } from 'react-router-dom';
 
 const App = () => {
   return (
     <>
-    <Header/>
-    <main className='py-3'>
-      <Container>
-        <h1>Hello World</h1>
-      </Container>
-    </main>
-    <Footer/>
+      <ThemeProvider theme={blazeTheme}>
+        <GlobalStyles/>
+        <Header />
+        <main style={{ backgroundColor: blazeTheme.colors.primaryBackground }} className="py-3">
+          <Container>
+            <Outlet/>
+          </Container>
+        </main>
+        <Footer />
+      </ThemeProvider>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
