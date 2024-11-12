@@ -58,7 +58,7 @@ const Products = () => {
     <Col md={3}>
     <ListGroup variant='flush' className='gap-2 rounded h-100'>
         <StyledStock>
-            <h3>Status: {product.countInStock > 0 ? 'In Stock' : "Out Of Stock"}</h3>
+            <h4 style={{margin: 0, padding: 0}}>Status: {product.countInStock > 0 ? 'In Stock' : "Out Of Stock"}</h4>
         </StyledStock>
         <StyledStock className='p-0'>
             <Button className='btn btn-dark w-100' type='button' disabled={product.countInStock < 1}>Add to Cart</Button>

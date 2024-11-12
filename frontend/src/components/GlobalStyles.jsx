@@ -18,14 +18,19 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Massilia', sans-serif;
     margin: 0;
+    height: 100%;
     padding: 0;
     background-color: ${({ theme }) => theme.colors.primaryBackground};
     color: ${({theme})=> theme.colors.textPrimary}
+  }
+  html{
+  height: 100%;
   }
   
   #root{
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   * {

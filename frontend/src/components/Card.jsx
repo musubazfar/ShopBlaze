@@ -61,7 +61,7 @@
             <StyledLink to={`/products/${items._id}`}>
             <StyledCardText as="h5">${items.price}</StyledCardText>
             </StyledLink>
-            <Rating value={items.rating} text={`${items.numReviews} reviews`} />
+            <Rating value={items.rating} text={items.numReviews} />
         </Card.Body>
         </StyledCard>
     );

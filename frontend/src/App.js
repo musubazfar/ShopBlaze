@@ -13,7 +13,7 @@ const App = () => {
       <ThemeProvider theme={blazeTheme}>
         <GlobalStyles/>
         <Header />
-        <main style={{ backgroundColor: blazeTheme.colors.primaryBackground }} className="py-3">
+        <main style={{ backgroundColor: blazeTheme.colors.primaryBackground, flexGrow: 1 }} className="py-3">
           <Container>
             <Outlet/>
           </Container>
