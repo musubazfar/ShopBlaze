@@ -1,10 +1,11 @@
 // src/components/GlobalStyle.js
 import { createGlobalStyle } from 'styled-components';
 
+
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Massilia';
-    src: url('/fonts/Massilia_Regular.woff2') format('woff2');
+    src: url('/fonts/fonnts.com-Massilia_Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
   }

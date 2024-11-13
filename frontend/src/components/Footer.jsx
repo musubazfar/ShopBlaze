@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 // Styled component for the footer text color

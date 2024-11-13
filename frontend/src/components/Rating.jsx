@@ -19,7 +19,7 @@ const ReviewText = styled.span`
     top: 3px;
 `
 
-const Rating = ({ value, text }) => {
+const Rating = ({ value=0, text }) => {
   // Calculate the number of full stars, half stars, and empty stars
   const fullStars = Math.floor(value);
   const halfStars = value % 1 >= 0.5 ? 1 : 0;

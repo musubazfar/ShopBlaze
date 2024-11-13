@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import products from '../products';
 import styled from 'styled-components';
 import { Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import axios from 'axios';
 
 const StyledLink = styled(Link)`
     background-color: ${({ theme }) => theme.colors.aloeGreen};
@@ -33,9 +33,17 @@ const StyledStock = styled(ListGroupItem)`
 `;
 
 const Products = () => {
+    const [product, setProduct] = useState({});
     const {id: productID} = useParams();
-    const product = products.find((p)=> p._id === productID)
-  return (
+    useEffect(()=>{
+        const fetchData = async()=>{
+            const {data} = await axios.get(`/api/products/${productID}`);
+            setProduct(data)
+        }
+        fetchData();
+    },[productID])
+
+    return (
   <>
   <StyledLink className='btn my-3' to='/'>Go Back</StyledLink>
   <Row>
