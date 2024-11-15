@@ -1,0 +1,64 @@
+/* Loading animation */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #f1f8e9, #c1d8a3); /* Updated gradient using your theme color */
+    color: #333; /* Dark text for contrast */
+    text-align: center;
+}
+  
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid rgba(241, 248, 233, 0.3); /* Lightened theme color */
+    border-top: 8px solid #f1f8e9; /* Your theme color for the spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+  
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+  
+/* Error screen */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 79vh;
+    background: rgb(241, 248, 233); /* Soft gradient to complement theme */
+    color: #333; /* Dark text for better readability */
+    text-align: center;
+}
+  
+.error-text {
+    font-size: 2rem;
+    font-weight: bold;
+}
+  
+.error-details {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.9;
+    animation: fadeIn 2s ease-in-out;
+}
+  
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
