@@ -4,8 +4,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background: linear-gradient(45deg, #f1f8e9, #c1d8a3); /* Updated gradient using your theme color */
+    height: 79vh;
+    background: rgb(241, 248, 233);
     color: #333; /* Dark text for contrast */
     text-align: center;
 }
