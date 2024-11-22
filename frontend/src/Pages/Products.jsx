@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components';
 import { Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import axios from 'axios';
+import { useGetProductDetailsQuery } from '../Redux/slices/productsApiSlice';
 
 const StyledLink = styled(Link)`
     background-color: ${({ theme }) => theme.colors.aloeGreen};
@@ -33,15 +33,26 @@ const StyledStock = styled(ListGroupItem)`
 `;
 
 const Products = () => {
-    const [product, setProduct] = useState({});
     const {id: productID} = useParams();
-    useEffect(()=>{
-        const fetchData = async()=>{
-            const {data} = await axios.get(`/api/products/${productID}`);
-            setProduct(data)
-        }
-        fetchData();
-    },[productID])
+    const {data: product, isLoading, isError} = useGetProductDetailsQuery(productID);
+    
+    if (isLoading) {
+        return (
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <h3>Loading Products...</h3>
+          </div>
+        );
+      }
+
+      if (isError) {
+        return (
+          <div className="error-container">
+            <h3 className="error-text">Oops! Something went wrong.</h3>
+            <p className="error-details">{isError?.data?.message || 'Unable to fetch products.'}</p>
+          </div>
+        );
+      }
 
     return (
   <>

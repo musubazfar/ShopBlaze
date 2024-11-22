@@ -22,7 +22,6 @@ const importData = async()=>{
         const sampleProduct = products.map((product)=>{
             return {...product, user:adminuser}
         });
-        console.log(adminuser)
         await productsModel.insertMany(sampleProduct)
         console.log("Data inserted".green.inverse)
         process.exit();
