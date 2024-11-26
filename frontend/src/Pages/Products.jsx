@@ -103,7 +103,7 @@ const Products = () => {
         width: '50px',
         height: '50px',
         display: 'flex',
-        alignItems: 'center',
+        paddingTop: '8px',
         justifyContent: 'center',
         fontSize: '20px', // Bigger font for better visibility
         fontWeight: 'bold',
@@ -152,7 +152,7 @@ const Products = () => {
         width: '50px',
         height: '50px',
         display: 'flex',
-        alignItems: 'center',
+        paddingTop: '8px',
         justifyContent: 'center',
         fontSize: '20px', // Bigger font for better visibility
         fontWeight: 'bold',
