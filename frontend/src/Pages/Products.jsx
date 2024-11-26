@@ -1,9 +1,13 @@
-import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components';
-import { Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+import { Form, Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useGetProductDetailsQuery } from '../Redux/slices/productsApiSlice';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../Redux/slices/cartSlice';
 
 const StyledLink = styled(Link)`
     background-color: ${({ theme }) => theme.colors.aloeGreen};
@@ -35,24 +39,28 @@ const StyledStock = styled(ListGroupItem)`
 const Products = () => {
     const {id: productID} = useParams();
     const {data: product, isLoading, isError} = useGetProductDetailsQuery(productID);
+    const [qty, setQty] = useState(1);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     
+    const addToCartHandler = ()=>{
+        dispatch(addToCart({...product, qty}));
+        navigate('/cart')
+    }
+
     if (isLoading) {
         return (
-          <div className="loading-container">
-            <div className="spinner"></div>
-            <h3>Loading Products...</h3>
-          </div>
+         <Loader/>
         );
       }
 
-      if (isError) {
+    if (isError) {
         return (
-          <div className="error-container">
-            <h3 className="error-text">Oops! Something went wrong.</h3>
-            <p className="error-details">{isError?.data?.message || 'Unable to fetch products.'}</p>
-          </div>
+          <Message variant='danger'>
+            {isError?.data?.message || isError.error}
+          </Message>
         );
-      }
+    }
 
     return (
   <>
@@ -79,8 +87,97 @@ const Products = () => {
         <StyledStock>
             <h4 style={{margin: 0, padding: 0}}>Status: {product.countInStock > 0 ? 'In Stock' : "Out Of Stock"}</h4>
         </StyledStock>
+        <StyledStock>
+    <Row>
+        <Col style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* Decrease Quantity Button */}
+            <Button
+    variant="outline-dark"
+    onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+    disabled={qty <= 1}
+    style={{
+        background: 'linear-gradient(135deg, #ff7e5f, #feb47b)', // Gradient background
+        color: 'white', // White text
+        border: 'none', // Remove border
+        borderRadius: '50%', // Circular button
+        width: '50px',
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '20px', // Bigger font for better visibility
+        fontWeight: 'bold',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+        cursor: qty > 1 ? 'pointer' : 'not-allowed', // Dynamic cursor
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Smooth hover effect
+    }}
+    onMouseEnter={(e) => {
+        if (qty > 1) {
+            e.target.style.transform = 'scale(1.1)'; // Slight scaling on hover
+            e.target.style.boxShadow = '0px 6px 10px rgba(0, 0, 0, 0.2)';
+        }
+    }}
+    onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)'; // Reset scale
+        e.target.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+    }}
+>
+    -
+</Button>
+
+            {/* Quantity and Price */}
+            <span
+                style={{
+                    margin: '0 15px',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <span>{`Qty: ${qty}`}</span>
+            </span>
+
+            {/* Increase Quantity Button */}
+            <Button
+    variant="outline-dark"
+    onClick={() => setQty(qty < product.countInStock ? qty + 1 : qty)}
+    disabled={qty >= product.countInStock}
+    style={{
+        background: 'linear-gradient(135deg, #76b852, #8dc26f)', // Gradient background
+        color: 'white', // White text
+        border: 'none', // Remove border
+        borderRadius: '50%', // Circular button
+        width: '50px',
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '20px', // Bigger font for better visibility
+        fontWeight: 'bold',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+        cursor: qty < product.countInStock ? 'pointer' : 'not-allowed', // Dynamic cursor
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Smooth hover effect
+    }}
+    onMouseEnter={(e) => {
+        if (qty < product.countInStock) {
+            e.target.style.transform = 'scale(1.1)'; // Slight scaling on hover
+            e.target.style.boxShadow = '0px 6px 10px rgba(0, 0, 0, 0.2)';
+        }
+    }}
+    onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)'; // Reset scale
+        e.target.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+    }}
+>
+    +
+</Button>
+        </Col>
+    </Row>
+</StyledStock>
         <StyledStock className='p-0'>
-            <Button className='btn btn-dark w-100' type='button' disabled={product.countInStock < 1}>Add to Cart</Button>
+            <Button className='btn btn-dark w-100' type='button' disabled={product.countInStock < 1} onClick={addToCartHandler}>Add to Cart</Button>
         </StyledStock>
         <StyledStock className='p-0 d-flex align-items-center' style={{ flexGrow: 1 }}>
         <p className='p-1' style={{ textAlign: 'justify' }}>{product.description}</p>

@@ -1,9 +1,10 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import styled from "styled-components";
 import logo from '../Assets/logo.png';
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const StyledNavbar = styled(Navbar)`
   background: ${({ theme }) => theme.colors.headerBackground}
@@ -20,6 +21,8 @@ const FireText = styled.span`
 `;
 
 const Header = () => {
+  const {cartItems} = useSelector((state)=> state.cart)
+
   return (
     <header>
       <StyledNavbar variant="dark" expand="md" collapseOnSelect>
@@ -31,9 +34,31 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto gap-3">
-              <Link to="/cart" style={{ color: 'white', textDecoration: 'none', fontSize: '18px' }}>
-                <FaShoppingCart /> Cart
-              </Link>
+  <Link to="/cart" style={{ color: 'white', textDecoration: 'none', fontSize: '18px', marginLeft: '8px' }}>
+            <div style={{ position: 'relative', display: 'inline-block', marginRight: '10px' }}>
+  <FaShoppingCart style={{ fontSize: '24px', color: 'white' }} />
+  {cartItems.length > 0 && (
+    <Badge
+      pill
+      bg="danger"
+      style={{
+        position: 'absolute',
+        top: '-5px', // Adjust position
+        right: '-10px', // Adjust position
+        fontSize: '12px',
+        minWidth: '18px',
+        minHeight: '18px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+    </Badge>
+  )}
+</div>
+  Cart
+</Link> 
               <Link to="/login" style={{ color: 'white', textDecoration: 'none', fontSize: '18px' }}>
                 <FaUser /> Sign In
               </Link>

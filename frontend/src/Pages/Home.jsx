@@ -2,25 +2,23 @@ import { Row, Col } from 'react-bootstrap';
 import CardComponent from '../components/Card';
 import { useGetProductsQuery } from '../Redux/slices/productsApiSlice';
 import '../index.css'
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const Home = () => {
-  const { data: products, isLoading, isError, error } = useGetProductsQuery();
+  const { data: products, isLoading, isError} = useGetProductsQuery();
 
   if (isLoading) {
     return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <h3>Loading Products...</h3>
-      </div>
+      <Loader/>
     );
   }
 
   if (isError) {
     return (
-      <div className="error-container">
-        <h3 className="error-text">Oops! Something went wrong.</h3>
-        <p className="error-details">{error?.data?.message || 'Unable to fetch products.'}</p>
-      </div>
+      <Message variant='danger'>
+        {isError?.data?.message || isError.error}
+      </Message>
     );
   }
 

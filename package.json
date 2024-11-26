@@ -1,7 +1,7 @@
 {
   "name": "e-gadgets",
   "version": "1.0.0",
-  "description": "A one-stop shop  eCommerce Store for your elecronic needs. ",
+  "description": "A one-stop shop  eCommerce Store for your elecronic needs.",
   "type": "module",
   "main": "server.js",
   "scripts": {
