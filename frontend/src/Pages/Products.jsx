@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../Redux/slices/cartSlice';
+import QuantityButton from '../components/QuantityButton';
 
 const StyledLink = styled(Link)`
     background-color: ${({ theme }) => theme.colors.aloeGreen};
@@ -89,91 +90,35 @@ const Products = () => {
         </StyledStock>
         <StyledStock>
     <Row>
-        <Col style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {/* Decrease Quantity Button */}
-            <Button
-    variant="outline-dark"
-    onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
-    disabled={qty <= 1}
-    style={{
-        background: 'linear-gradient(135deg, #ff7e5f, #feb47b)', // Gradient background
-        color: 'white', // White text
-        border: 'none', // Remove border
-        borderRadius: '50%', // Circular button
-        width: '50px',
-        height: '50px',
-        display: 'flex',
-        paddingTop: '8px',
-        justifyContent: 'center',
-        fontSize: '20px', // Bigger font for better visibility
-        fontWeight: 'bold',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
-        cursor: qty > 1 ? 'pointer' : 'not-allowed', // Dynamic cursor
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Smooth hover effect
-    }}
-    onMouseEnter={(e) => {
-        if (qty > 1) {
-            e.target.style.transform = 'scale(1.1)'; // Slight scaling on hover
-            e.target.style.boxShadow = '0px 6px 10px rgba(0, 0, 0, 0.2)';
-        }
-    }}
-    onMouseLeave={(e) => {
-        e.target.style.transform = 'scale(1)'; // Reset scale
-        e.target.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
-    }}
->
-    -
-</Button>
-
-            {/* Quantity and Price */}
-            <span
-                style={{
-                    margin: '0 15px',
-                    fontSize: '18px',
-                    fontWeight: 'bold',
+        <Col
+                  style={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    justifyContent: 'center',
                     alignItems: 'center',
-                }}
-            >
-                <span>{`Qty: ${qty}`}</span>
-            </span>
-
-            {/* Increase Quantity Button */}
-            <Button
-    variant="outline-dark"
-    onClick={() => setQty(qty < product.countInStock ? qty + 1 : qty)}
-    disabled={qty >= product.countInStock}
-    style={{
-        background: 'linear-gradient(135deg, #76b852, #8dc26f)', // Gradient background
-        color: 'white', // White text
-        border: 'none', // Remove border
-        borderRadius: '50%', // Circular button
-        width: '50px',
-        height: '50px',
-        display: 'flex',
-        paddingTop: '8px',
-        justifyContent: 'center',
-        fontSize: '20px', // Bigger font for better visibility
-        fontWeight: 'bold',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
-        cursor: qty < product.countInStock ? 'pointer' : 'not-allowed', // Dynamic cursor
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Smooth hover effect
-    }}
-    onMouseEnter={(e) => {
-        if (qty < product.countInStock) {
-            e.target.style.transform = 'scale(1.1)'; // Slight scaling on hover
-            e.target.style.boxShadow = '0px 6px 10px rgba(0, 0, 0, 0.2)';
-        }
-    }}
-    onMouseLeave={(e) => {
-        e.target.style.transform = 'scale(1)'; // Reset scale
-        e.target.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
-    }}
->
-    +
-</Button>
-        </Col>
+                  }}
+                >
+                  <QuantityButton
+                    type="decrement"
+                    onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+                    disabled={qty <= 1}
+                  />
+                  <span
+                    style={{
+                      margin: '0 15px',
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Qty: {qty}
+                  </span>
+                  <QuantityButton
+                    type="increment"
+                    onClick={() =>
+                      setQty(qty < product.countInStock ? qty + 1 : qty)
+                    }
+                    disabled={qty >= product.countInStock}
+                  />
+                </Col>
     </Row>
 </StyledStock>
         <StyledStock className='p-0'>
