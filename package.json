@@ -9,16 +9,17 @@
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "data:insert" : "node backend/Seeder.js",
-    "data:delete" : "node backend/Seeder.js -d"
-
+    "data:insert": "node backend/Seeder.js",
+    "data:delete": "node backend/Seeder.js -d"
   },
   "author": "Musub Khan",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.7",
     "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.1"
   },
