@@ -10,6 +10,7 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} fr
 import Home from './Pages/Home';
 import Products from './Pages/Products';
 import CartScreen from './Pages/CartScreen';
+import LoginScreen from './Pages/LoginScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<Home/>}/>
       <Route path='/products/:id' element={<Products/>}/>
       <Route path='/cart' element={<CartScreen/>}/>
+      <Route path='/login' element={<LoginScreen/>}/>
     </Route>
   )
 )

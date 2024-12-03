@@ -1,23 +1,16 @@
 import AsyncHandler from "../middleware/AsyncHnadler.js";
 import userModel from '../model/userModel.js'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import generateToken from "../Utils/generateToken.js";
 
 const authUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     // Find user by email
     const user = await userModel.findOne({ email });
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
-        expiresIn: '1d'
-    })
+    
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== 'development',
-            sameSite: 'strict',
-            maxAge: 1000 * 60 * 60 * 24
-        })
+        generateToken(res, user.id)
         res.json({
             id: user.id,
             name: user.name,
@@ -31,7 +24,32 @@ const authUser = AsyncHandler(async (req, res) => {
 });
 
 const registerUser = AsyncHandler(async(req,res)=>{
-    res.send('User Registered')
+    const {name, email, password} = req.body;
+    const userExist = await userModel.findOne({email})
+    if(userExist){
+        res.status(400);
+        throw new Error("User Already Exists")
+    }
+
+    const user = await userModel.create({
+        name,
+        email,
+        password
+    })
+    console.log(user)
+
+    if(user){
+        generateToken(res, user._id)
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin
+        })
+    } else {
+        res.status(400);
+        throw new Error("Inavlid user Data")
+    }
 })
 
 const logoutUser = AsyncHandler(async (req, res) => {
@@ -50,11 +68,39 @@ const logoutUser = AsyncHandler(async (req, res) => {
 });
 
 const getUserProfile = AsyncHandler(async(req,res)=>{
-    res.send('User Profile Fetched')
+    const user = await userModel.findById(req.user._id)
+    if(user){
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin
+        })
+    } else{
+        res.status(404);
+        throw new Error('User not Found')
+    }
 })
 
 const updateUserProfile = AsyncHandler(async(req,res)=>{
-    res.send('User Profile Updated by updateUserProfile')
+    const user = await userModel.findById(req.user._id)
+    if(user){
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        if(req.body.password){
+            user.password = req.body.password
+        }
+        const updatedUser = await user.save()
+        res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name, 
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        });
+    } else {
+        res.status(404);
+        throw new Error('User not Found')
+    }
 })
 
 const getUsers = AsyncHandler(async(req,res)=>{
