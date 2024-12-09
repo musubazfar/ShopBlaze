@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components';
-import { Form, Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+import { Image, Row, Col, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useGetProductDetailsQuery } from '../Redux/slices/productsApiSlice';
 import Loader from '../components/Loader';

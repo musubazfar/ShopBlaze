@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Form, Image, ListGroup, Row, Button } from "react-bootstrap";
+import { Card, Col, Image, ListGroup, Row, Button } from "react-bootstrap";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
