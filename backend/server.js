@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import productsRoute from './routes/ProductsRoute.js'
+import orderRoute from './routes/orderRoutes.js'
 import userRoute from './routes/UsersRoute.js'
 import cookieParser from 'cookie-parser';
 dotenv.config();
@@ -20,6 +21,7 @@ app.get('/', (req, res)=>{
 
 app.use('/api/products', productsRoute)
 app.use('/api/users', userRoute)
+app.use('/api/orders', orderRoute)
 app.use(notFound)
 app.use(errorHandler)
 
