@@ -3,14 +3,20 @@ import {apiSlice} from './apiSlice'
 
 export const orderApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder)=>({
-        getOrders: builder.mutation({
+        createOrders: builder.mutation({
             query: (order)=>({
                 url: ORDERS_URL,
                 method: 'POST',
                 body: {...order}
             })
+        }),
+        getOrderById: builder.query({
+            query: (orderId)=>({
+                url: `${ORDERS_URL}/${orderId}`
+            }),
+            keepUnusedDataFor: 5
         })
     })
 })
 
-export const {useGetOrdersMutation} = orderApiSlice
+export const {useCreateOrdersMutation, useGetOrderByIdQuery} = orderApiSlice
