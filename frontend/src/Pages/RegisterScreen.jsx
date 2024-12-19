@@ -65,7 +65,7 @@ const RegisterScreen = () => {
                 <Form.Control type='password' placeholder='Re-Enter Password' value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}}></Form.Control>
             </Form.Group>
             <Button type='submit' variant='success' className='mt-2' disabled={isLoading}>Register</Button>
-            {isLoading && <Loader/>}
+            {isLoading && <Loader height={'20px'} width={'20px'}/>}
         </Form>
         <Row className='py-3'>
             <Col>

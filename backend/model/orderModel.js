@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        red: "Users"
+        ref: "Users"
     },
     orderItems: [{
         name: {type: String, required: true},

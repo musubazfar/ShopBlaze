@@ -50,7 +50,7 @@ const LoginScreen = () => {
                 <Form.Control type='password' placeholder='Enter your Password' value={password} onChange={(e)=>{setPassword(e.target.value)}}></Form.Control>
             </Form.Group>
             <Button type='submit' variant='success' className='mt-2' disabled={isLoading}>Login</Button>
-            {isLoading && <Loader/>}
+            {isLoading && <Loader height={'100px'} width={'100px'}/>}
         </Form>
         <Row className='py-3'>
             <Col>

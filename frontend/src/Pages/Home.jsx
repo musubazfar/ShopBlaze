@@ -10,7 +10,7 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <Loader/>
+      <Loader full height={'100px'} width={'100px'}/>
     );
   }
 

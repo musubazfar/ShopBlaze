@@ -2,7 +2,6 @@ import AsyncHandler from '../middleware/AsyncHnadler.js'
 import orderModel from "../model/orderModel.js";
 
 const addOrderItems = AsyncHandler(async(req,res)=>{
-    console.log(req)
     const {orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice} = req.body
 
     if(orderItems && orderItems.length === 0){
@@ -34,8 +33,7 @@ const getMyOrders = AsyncHandler(async(req,res)=>{
 })
 
 const getOrderByID = AsyncHandler(async(req,res)=>{
-    const order = await orderModel.findById(req.params.id).populate('users', 'name email')
-    console.log(order)
+    const order = await orderModel.findById(req.params.id).populate('user', 'name email')
     if(order){
         res.status(201).json(order)
     } else {
