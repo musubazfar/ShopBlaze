@@ -1,15 +1,49 @@
-import React from 'react'
-import { useGetOrderByIdQuery } from '../Redux/slices/orderApiSlice'
+import React, { useEffect } from 'react'
+import { useGetOrderByIdQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from '../Redux/slices/orderApiSlice'
 import { Link, useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
+import {PayPalButtons, usePayPalScriptReducer} from '@paypal/react-paypal-js'
+import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+
+
 
 
 const OrderScreen = () => {
     const {id: orderId} = useParams()
     const {data: order, refetch, isLoading, error} = useGetOrderByIdQuery(orderId)
-    console.log(order)
+    const  [payOrder, {isloading: loadingPay}] = usePayOrderMutation()
+    const [{isPending}, paypalDispatch] = usePayPalScriptReducer()
+    const {data: paypal, isLoading: loadingPayPal, error: errorPayPal} = useGetPayPalClientIdQuery();
+    const {userInfo } = useSelector(state=> state.auth)
+
+    useEffect(()=>{
+      if(!errorPayPal && !loadingPayPal && paypal.clientId){
+        const loadPayPalScript = async()=>{
+          paypalDispatch({
+            type: 'resetOptions',
+            value:{
+              'client-id': paypal.clientId,
+              currency: 'USD'
+            }
+          });
+          paypalDispatch({type: 'setLoadingStatus', value: 'pending'})
+        }
+        if(order && !order.isPaid){
+          if(!window.paypal){
+            loadPayPalScript();
+          }
+
+        }
+      }
+    },[order, paypal, paypalDispatch, loadingPayPal, errorPayPal])
+
+    function onApprove(){}
+    function onApproveTest(){}
+    function onError(){}
+    function createOrder(){}
   return isLoading ? <Loader full height={'100px'} width={'100px'}/> : error ? <Message variant={'danger'}/> :
    (<>
     <h1>Order {order._id}</h1>
@@ -78,6 +112,19 @@ const OrderScreen = () => {
                 <Col>${order.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
+            {!order.idPaid && (
+              <ListGroup.Item>
+                {loadingPay && <Loader/>}
+                {isPending ? <Loader/> : (
+                  <div>
+                    <Button onClick={ onApproveTest } style={{marginBottom: '10px'}}>Test Pay Order</Button>
+                    <div>
+                      <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                    </div>
+                  </div>
+                )}
+              </ListGroup.Item>
+            )}
       </ListGroup>
       </Card>
       </Col>
