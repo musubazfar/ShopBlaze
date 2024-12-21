@@ -15,6 +15,7 @@ const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
   const [createOrder, {isLoading, error}] = useCreateOrdersMutation();
 
+
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate("/shipping");
@@ -29,7 +30,7 @@ const PlaceOrderScreen = () => {
             orderItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
             paymentMethod: cart.paymentMethod,
-            itemsPrice: cart.itemsPrice,
+            itemsPrice: cart.itemPrice,
             shippingPrice: cart.shippingPrice,
             taxPrice: cart.taxPrice,
             totalPrice: cart.totalPrice
@@ -70,7 +71,7 @@ const PlaceOrderScreen = () => {
                       <Link to={`/products/${item._id}`}>{item.name}</Link>
                     </Col>
                     <Col sm={4} className="m-auto">
-                      {item.qty} x ${item.price} = ${item.qty * item.price}
+                      {item.qty} x ${item.price} = ${(item.qty * item.price).toFixed(2)}
                     </Col>
                   </Row>
                 </ListGroup.Item>
