@@ -43,26 +43,6 @@ const PaymentScreen = () => {
               checked={paymentMethod === "PayPal"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-            <Form.Check 
-              type="radio" 
-              className="my-2" 
-              label="Pay with Credit/Debit Card" 
-              id="Credit/Debit" 
-              name="paymentMethod" 
-              value="Credit/Debit" 
-              checked={paymentMethod === "Credit/Debit"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <Form.Check 
-              type="radio" 
-              className="my-2" 
-              label="Pay with EasyPaisa" 
-              id="EasyPaisa" 
-              name="paymentMethod" 
-              value="EasyPaisa" 
-              checked={paymentMethod === "EasyPaisa"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
           </Col>
         </Form.Group>
         <Button type="submit" variant="success">Continue...</Button>

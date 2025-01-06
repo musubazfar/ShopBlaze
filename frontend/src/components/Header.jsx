@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../Redux/slices/usersApiSlice";
 import { logout } from "../Redux/slices/authSlice";
+import { LinkContainer } from "react-router-bootstrap";
 
 const StyledNavbar = styled(Navbar)`
   background: ${({ theme }) => theme.colors.headerBackground};
@@ -49,7 +50,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto gap-3">
-              <Link to="/cart" style={{ color: "white", textDecoration: "none", fontSize: "18px", marginLeft: "8px" }}>
+              <Link to="/cart" className="d-flex align-items-center" style={{ color: "white", textDecoration: "none", fontSize: "18px", marginLeft: "8px" }}>
                 <div style={{ position: "relative", display: "inline-block", marginRight: "10px" }}>
                   <FaShoppingCart style={{ fontSize: "24px", color: "white" }} />
                   {cartItems.length > 0 && (
@@ -87,6 +88,19 @@ const Header = () => {
                 <Link to="/login" style={{ color: "white", textDecoration: "none", fontSize: "18px" }}>
                   <FaUser /> Sign In
                 </Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

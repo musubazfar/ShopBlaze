@@ -43,9 +43,9 @@ const getOrderByID = AsyncHandler(async(req,res)=>{
 })
 
 const updateOrderToPaid = AsyncHandler(async(req,res)=>{
-    const order = orderModel.findById(req.params.id)
+    const order = await orderModel.findById(req.params.id)
      if (order) {
-        order.paid = true;
+        order.isPaid = true;
         order.paidAt = Date.now();
         order.paymentResult = {
             id: req.body.id,
@@ -62,11 +62,21 @@ const updateOrderToPaid = AsyncHandler(async(req,res)=>{
 })
 
 const updateOrderToDelivered = AsyncHandler(async(req,res)=>{
-    res.send('update Order To Delivered')
+    const order = await orderModel.findById(req.params.id)
+    if(order){
+        order.isDelivered = true;
+        order.deliveredAt = Date.now()
+        const updateOrder = await order.save()
+        res.status(200).json(updateOrder)
+    } else {
+        res.status(404)
+        throw new Error('Order Not Found')
+    }
 })
 
 const getOrders = AsyncHandler(async(req,res)=>{
-    res.send('Get All Orders')
+    const orders = await orderModel.find({}).populate('user', 'id name');
+    res.status(200).json(orders)
 })
 
 export {addOrderItems, getOrders, getOrderByID, getMyOrders, updateOrderToDelivered, updateOrderToPaid}
