@@ -52,6 +52,7 @@ const ProductListScreen = () => {
                             <th>PRICE</th>
                             <th>CATEGORY</th>
                             <th>BRAND</th>
+                            <th>QUANTITY</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -63,6 +64,9 @@ const ProductListScreen = () => {
                                 <td>${product.price}</td>
                                 <td>{product.category}</td>
                                 <td>{product.brand}</td>
+                                <td style={{ color: product.countInStock === 0 ? 'red' : product.countInStock < 10 ? 'red' : 'black' }}>
+                                    {product.countInStock === 0 ? <FaTimes style={{ color: 'red' }} /> : product.countInStock}
+                                </td>
                                 <td>
                                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                         <Button variant='light' className='btn-sm'>
