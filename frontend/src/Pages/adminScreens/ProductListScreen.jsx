@@ -4,15 +4,24 @@ import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { useGetProductsQuery, useCreateProductMutation } from '../../Redux/slices/productsApiSlice'
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from '../../Redux/slices/productsApiSlice'
 import { toast } from 'react-toastify'
 
 const ProductListScreen = () => {
     const { data: products, isLoading, error, refetch } = useGetProductsQuery();
-    const [createProduct, {isLoading: createLoading}] = useCreateProductMutation()
+    const [createProduct, {isLoading: createLoading}] = useCreateProductMutation();
+    const [deleteProduct, {isLoading: deleteLoading}] = useDeleteProductMutation();
 
     const deleteHandler = async(id)=>{
-        console.log(id)
+        if(window.confirm('Are you Sure?')){
+            try {
+                await deleteProduct(id);
+                refetch()
+                toast.success("Product deleted successfully")
+            } catch (error) {
+                toast.error(error?.data?.message || error.error)
+            }
+        }
     }
 
     const createProductHandler = async()=>{
@@ -39,6 +48,7 @@ const ProductListScreen = () => {
                 </Col>
             </Row>
             {createLoading && <Loader height={'10px'} width={'10px'}/>}
+            {deleteLoading && <Loader height={'10px'} width={'10px'}/>}
             {isLoading ? (
                 <Loader />
             ) : error ? (
